@@ -19,6 +19,7 @@ int FileParser::process(std::vector<std::string> &includePaths, std::set<std::st
     std::string line;
     int section = INVALID_SECTION;
     int lineNo = 0;
+    bool found = false;
     while (false == std::getline(ifile, line).eof())
     {
         ++lineNo;
@@ -48,16 +49,18 @@ int FileParser::process(std::vector<std::string> &includePaths, std::set<std::st
         {
             case INCLUDE_SECTION:
                 includePaths.push_back(line);
+                found = true;
                 break;
             case SKIP_SECTION:
                 skipIncludes.insert(line);
+                found = true;
                 break;
             default:
                 std::cerr << "No skip or include section found in '" << fileName_ << "'" << std::endl;
                 return 1;
         }
     }
-    return (0 != lineNo)?0:1;
+    return (true == found)?0:1;
 }
 
 FileParser::~FileParser()
