@@ -7,7 +7,8 @@ set (SRCS
     src/checkheaders.cpp
     src/commoncheck.cpp
     src/filelister.cpp
-    src/tokenize.cpp)
+    src/tokenize.cpp
+    src/FileParser.cpp)
 
 add_executable (checkheaders ${SRCS})
-install ( TARGETS checkheaders RUNTIME DESTINATION bin )
+install (TARGETS checkheaders RUNTIME DESTINATION bin)
