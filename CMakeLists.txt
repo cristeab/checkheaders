@@ -11,4 +11,9 @@ set (SRCS
     src/FileParser.cpp)
 
 add_executable (checkheaders ${SRCS})
+
+if(MSVC)
+	target_link_libraries(checkheaders shlwapi)
+endif(MSVC)
+
 install (TARGETS checkheaders RUNTIME DESTINATION bin)
