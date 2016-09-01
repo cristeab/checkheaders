@@ -40,7 +40,8 @@
 #include <set>
 
 
-static bool Debug;      /// --debug
+static bool Debug;      // --debug
+static bool Quiet;      // --quiet
 static OutputFormat outputFormat;
 
 static void CheckFile(const char FileName[], const std::vector<std::string> &includePaths, const std::set<std::string> &skipIncludes);
@@ -62,6 +63,11 @@ int main(int argc, char* argv[])
         if (strcmp(argv[i], "--debug") == 0)
         {
             Debug = true;
+        }
+
+        if (strcmp(argv[i], "--quiet") == 0)
+        {
+            Quiet = true;
         }
 
         else if (strcmp(argv[i], "--skip") == 0 && (i + 1) < argc)
@@ -142,11 +148,12 @@ int main(int argc, char* argv[])
                   << "                   you see 'Header not found' messages.\n"
                   << "    --skip <file>  Skip header. Matching #include directives in\n"
                   << "                   the source code will be skipped.\n"
-                  << "    --file <file>  Specify include paths and skip headers in a file,\n" 
+                  << "    --file <file>  Specify include paths and skip headers in a file,\n"
                   << "                   one item per line. Include section begins by 'include',\n"
                   << "                   skip section begins by 'skip'\n"
                   << "    --vs           Output report in visual studio format\n"
                   << "    --xml          Output report in xml format\n"
+                  << "    --quiet        No progress report\n"
                   << "\n"
                   << "Example usage:\n"
                   << "    # check all files recursively under myproject\n"
@@ -199,7 +206,7 @@ static void CheckFile(const char FileName[], const std::vector<std::string> &inc
     }
 
     // Including header which is not needed
-    WarningIncludeHeader(tokenizer, true, outputFormat, std::cerr);
+    WarningIncludeHeader(tokenizer, !Quiet, outputFormat, std::cerr);
 }
 //---------------------------------------------------------------------------
 
